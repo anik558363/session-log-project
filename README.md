@@ -1,59 +1,172 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Assignment Project – README.md
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📌 Overview
 
-## About Laravel
+This project is built to solve a 3-part Laravel assignment involving **Request Handling**, **Session Management**, **Logging**, **Database Migrations with Foreign Keys**, and **Blade Templating**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The project includes:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* A `/info` endpoint to handle request data, store it in session, and log user info
+* Three database tables: `courses`, `students`, and `enrollments`
+* A Blade layout system with a dynamic dashboard view
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🚀 Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### **Task 1: Handle Request, Session & Logging**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* Accepts `name` and `email` via query parameters
+* Stores both values in session
+* Logs the values using `Log::info()`
+* Returns a JSON response with a custom status code
 
-## Laravel Sponsors
+**Example request:**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```
+/info?name=John&email=john@example.com
+```
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### **Task 2: Database Migrations with Foreign Keys**
 
-## Contributing
+Three tables are created:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### 1. **courses**
 
-## Code of Conduct
+Fields: `id`, `name`, `description`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### 2. **students**
 
-## Security Vulnerabilities
+Fields: `id`, `name`, `email`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### 3. **enrollments**
 
-## License
+Fields: `id`, `student_id`, `course_id`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Foreign key rules:
+
+* `enrollments.student_id` → references `students.id`
+* `enrollments.course_id` → references `courses.id`
+* Both use `cascadeOnDelete()`
+
+---
+
+### **Task 3: Blade Layout & Dashboard**
+
+* A layout file `layouts/app.blade.php`
+* A child view `dashboard.blade.php`
+* Shows session-stored name (if exists)
+* Displays a contact list using a Blade `@foreach` loop
+* If empty, shows “No Contacts Found”
+
+---
+
+## 📁 Project Structure
+
+```
+project-root/
+├─ app/
+│  ├─ Http/
+│  │  ├─ Controllers/
+│  │  │  └─ InfoController.php
+├─ resources/
+│  ├─ views/
+│  │  ├─ dashboard.blade.php
+│  │  ├─ layouts/app.blade.php
+├─ routes/
+│  ├─ web.php
+└─ database/
+   ├─ migrations/
+```
+
+---
+
+## 🛠️ Installation & Setup
+
+### 1️⃣ Clone or download the project
+
+```
+git clone <project-url>
+cd project-folder
+```
+
+### 2️⃣ Install dependencies
+
+```
+composer install
+```
+
+### 3️⃣ Configure environment
+
+Copy `.env.example` → `.env`
+
+```
+cp .env.example .env
+```
+
+Update database settings:
+
+```
+DB_DATABASE=your_database
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 4️⃣ Generate application key
+
+```
+php artisan key:generate
+```
+
+### 5️⃣ Run migrations
+
+```
+php artisan migrate
+```
+
+### 6️⃣ Run local server
+
+```
+php artisan serve
+```
+
+---
+
+## 🌐 Useful Routes
+
+### **1. Store info in session + log**
+
+```
+GET /info?name=John&email=john@example.com
+```
+
+Returns JSON:
+
+```json
+{
+  "status": "success",
+  "message": "User info stored in session and logged.",
+  "code": 201
+}
+```
+
+### **2. View dashboard**
+
+```
+GET /dashboard
+```
+
+Displays:
+
+* Session name
+* Contact list table
+
+---
+
+## 🧩 Controller Used
+
+`InfoController.php` manages both `/info` and `/dashboard` routes.
+
+
